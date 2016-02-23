@@ -126,7 +126,7 @@ padding:20px 0 10px;/*border-bottom:2px dashed #888;*/
 .header a{color:#000;margin:15px 0;padding :15px;}
 .header #pages li a:hover{background-color :#eee;color :#34B489;border-bottom:none;}
 h1 a{color:#146558;/*#444;*/
-,font-family:'Ceviche One',cursive;font-size:1.5em;}
+font-family:'Ceviche One',cursive;font-size:1.5em;}
 a{text-decoration:none;color:#34B489;/*color:#E93071*/}
 a:hover{border-bottom:1px solid #34B489;/*border-bottom:1px solid #E93071*/}
 .selected{color:#000}
