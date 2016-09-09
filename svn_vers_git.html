@@ -33,7 +33,7 @@ Depuis mon serveur SVN (un macmini G4) a été vendu, j'ai arrêté de coder ré
 
 Mais il y a deux jours, je me suis dit que c'était le bon moment pour intégrer tout mon SVN sur mon compte github. J'ai donc cherché sur l'internet s'il y avait moyen de le faire par quelques lignes de commandes. Et j'ai trouvé.
 
-*NOTE: tout ceci a été réalisé sous Mac OS X 10.9.5 - svn, version 1.7.17 (r1591372) - git version 1.9.3 (Apple Git-50)*
+*NOTE: tout ceci a été réalisé sous Mac OS X 10.9.5 - svn, version 1.7.17 (r1591372) - git version 1.9.3 (Apple Git-50) - XCode Version 6.1.1*
 
 1. Recréer le dépôt SVN
 
@@ -45,23 +45,28 @@ Mais il y a deux jours, je me suis dit que c'était le bon moment pour intégrer
 
 3. Je ne sais pas si ces étapes pour lancer le serveur SVN sont nécessaires :
 
-        sudo emacs /Users/bruno/Desktop/SVN/conf/svnserve.conf
-        sudo emacs /Users/bruno/Desktop/SVN/conf/passwd
-        sudo chown -R www /Users/bruno/Desktop/SVN ???
-        sudo chmod -R u=rwx /Users/bruno/Desktop/SVN
-        sudo chmod a x /Users/bruno ???
-        sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
-        sudo chown -R bruno /Users/bruno/Desktop/SVN
-        sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
+        $ sudo emacs /Users/bruno/Desktop/SVN/conf/svnserve.conf
+        $ sudo emacs /Users/bruno/Desktop/SVN/conf/passwd
+        $ sudo chown -R www /Users/bruno/Desktop/SVN ???
+        $ sudo chmod -R u=rwx /Users/bruno/Desktop/SVN
+        $ sudo chmod a x /Users/bruno ???
+        $ sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
+        $ sudo chown -R bruno /Users/bruno/Desktop/SVN
+        $ sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
+        $ ps -ax | grep svnserve
+		68680 ??         0:00.00 /Applications/Xcode.app/Contents/Developer/usr/bin/svnserve -d -r /Users/bruno/Desktop/SVN
+		87875 ttys004    0:00.00 grep svn
     
 4. Test de check out de SVN
 
-        svn checkout file:///Users/bruno/Desktop/SVN/shell ./
+        $ svn checkout file:///Users/bruno/Desktop/SVN/shell ./
         => OK
 
 5. Récupération du nom de l'auteur
 
-        svn log -q file:///Users/bruno/Desktop/SVN | grep -e '^r' | awk 'BEGIN { FS = "|" } ; { print $2 }' | sort | uniq
+        $ svn log -q file:///Users/bruno/Desktop/SVN | grep -e '^r' | awk 'BEGIN { FS = "|" } ; { print $2 }' | sort | uniq
+        bruno
+
 
 6. Création d'un fichier authors.txt qui contient :
 
@@ -71,27 +76,76 @@ Mais il y a deux jours, je me suis dit que c'était le bon moment pour intégrer
 
 7. Importation d'un projet SVN dans un projet Git
 
-        mkdir /Users/bruno/Desktop/SVN/bgpattern
-        git svn clone file:///Users/bruno/Desktop/SVN/web/XHTML-CSS/bgpattern /Users/bruno/Desktop/git/SVN/bgpattern --no-metadata -A /Users/bruno/Desktop/SVN/authors.txt -t Tags -b Branches -T Trunk
+        $ mkdir /Users/bruno/Desktop/git/SVN
+        $ cd /Users/bruno/Desktop/git/SVN
+        $ git svn clone file:///Users/bruno/Desktop/SVN/web/XHTML-CSS/bgpattern --no-metadata -A /Users/bruno/Desktop/SVN/authors.txt -t Tags -b Branches -T Trunk
 
     *NOTE: le projet doit avoir l'arborescence Tags/Branches/Trunk; d'où l'intérêt du check out du point 4 qui nous permet de vérifier l'arborescence.*
 
-8. Déplacer les étiquettes et en faire de vraies étiquettes git
+8. Vérifier l'arborescence du projet git :
 
-        git for-each-ref refs/remotes/origin/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "$tagname"; git branch -r -d "$tagname";done
+        $ git branch -a
+        * master
+          remotes/tags/bg_pattern_v_0.2
+          remotes/tags/bgpattern_v_0.1
+          remotes/trunk
 
-9. Déplacer les branches ???
+9. Déplacer les étiquettes et en faire de vraies étiquettes git
+        
+        $ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "$tagname"; git branch -r -d "$tagname";done
+    
+    Mais moi je n'ai pas fait ça car je voulais changer les noms des étiquettes. Donc, j'ai lancé une commande pour chaque étiquette :
 
-        git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname";done
+		$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @
+		bg_pattern_v_0.2
+		bgpattern_v_0.1
+		$ git tag v0.1 "tags/bgpattern_v_0.1"
+		$ git branch -r -d "tags/bgpattern_v_0.1"
+		Deleted remote branch tags/bgpattern_v_0.1 (was 2b624b0).
+		$ git tag --list
+		v0.1
+		$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @
+		bg_pattern_v_0.2
+		$ git tag v0.2 "tags/bg_pattern_v_0.2"
+		$ git branch -r -d "tags/bg_pattern_v_0.2"
+		Deleted remote branch tags/bg_pattern_v_0.2 (was 77e6014).
+		$ git tag --list
+		v0.1
+		v0.2
 
-    *NOTE: quand on fait un git tag --list, on s'aperçoit qu'on n'a pas récupéré les tag dans git. J'ai pas trop compris pourquoi. Pas au niveau encore ...*
+10. Déplacer le reste des références sous refs/remotes en branches locales
 
-10. Créer un dépôt sur GitHub
+		$ → git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @
+        trunk
+        $ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname";done
+		Deleted remote branch trunk (was 32f78dc).
+		$ git branch -a
+		* master
 
-11. Le connecter au dépôt git local et tout rapatrier sur GitHub
+11. Créer un dépôt vide sur GitHub et récupérer son adresse
 
-        git remote add origin https://github.com/boissonnfive/JS_bgpattern.git
-        git push -u origin master
+12. Le connecter au dépôt git local et tout rapatrier sur GitHub
+
+        $ git remote add origin https://github.com/boissonnfive/JS_bgpattern.git
+        $ git push origin --tags
+		Counting objects: 62, done.
+		Delta compression using up to 4 threads.
+		Compressing objects: 100% (58/58), done.
+		Writing objects: 100% (62/62), 358.90 KiB | 0 bytes/s, done.
+		Total 62 (delta 11), reused 0 (delta 0)
+		remote: Resolving deltas: 100% (11/11), done.
+		To https://github.com/boissonnfive/JS_bgpattern.git
+		 * [new tag]         v0.1 -> v0.1
+		 * [new tag]         v0.2 -> v0.2
+        $ git push origin master
+		Counting objects: 20, done.
+		Delta compression using up to 4 threads.
+		Compressing objects: 100% (11/11), done.
+		Writing objects: 100% (12/12), 2.58 KiB | 0 bytes/s, done.
+		Total 12 (delta 4), reused 0 (delta 0)
+		remote: Resolving deltas: 100% (4/4), completed with 1 local objects.
+		To https://github.com/boissonnfive/JS_bgpattern.git
+		 * [new branch]      master -> master
 <!-- markdown end -->
 </div>
 <div class="entry" id="main">
@@ -104,7 +158,7 @@ Mais il y a deux jours, je me suis dit que c'était le bon moment pour intégrer
 
 <p>Mais il y a deux jours, je me suis dit que c'était le bon moment pour intégrer tout mon SVN sur mon compte github. J'ai donc cherché sur l'internet s'il y avait moyen de le faire par quelques lignes de commandes. Et j'ai trouvé.</p>
 
-<p><em>NOTE: tout ceci a été réalisé sous Mac OS X 10.9.5 - svn, version 1.7.17 (r1591372) - git version 1.9.3 (Apple Git-50)</em></p>
+<p><em>NOTE: tout ceci a été réalisé sous Mac OS X 10.9.5 - svn, version 1.7.17 (r1591372) - git version 1.9.3 (Apple Git-50) - XCode Version 6.1.1</em></p>
 
 <ol>
 <li><p>Recréer le dépôt SVN</p>
@@ -117,23 +171,27 @@ Mais il y a deux jours, je me suis dit que c'était le bon moment pour intégrer
 </code></pre></li>
 <li><p>Je ne sais pas si ces étapes pour lancer le serveur SVN sont nécessaires :</p>
 
-<pre><code>sudo emacs /Users/bruno/Desktop/SVN/conf/svnserve.conf
-sudo emacs /Users/bruno/Desktop/SVN/conf/passwd
-sudo chown -R www /Users/bruno/Desktop/SVN ???
-sudo chmod -R u=rwx /Users/bruno/Desktop/SVN
-sudo chmod a x /Users/bruno ???
-sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
-sudo chown -R bruno /Users/bruno/Desktop/SVN
-sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
+<pre><code>$ sudo emacs /Users/bruno/Desktop/SVN/conf/svnserve.conf
+$ sudo emacs /Users/bruno/Desktop/SVN/conf/passwd
+$ sudo chown -R www /Users/bruno/Desktop/SVN ???
+$ sudo chmod -R u=rwx /Users/bruno/Desktop/SVN
+$ sudo chmod a x /Users/bruno ???
+$ sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
+$ sudo chown -R bruno /Users/bruno/Desktop/SVN
+$ sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
+$ ps -ax | grep svnserve
+68680 ??         0:00.00 /Applications/Xcode.app/Contents/Developer/usr/bin/svnserve -d -r /Users/bruno/Desktop/SVN
+87875 ttys004    0:00.00 grep svn
 </code></pre></li>
 <li><p>Test de check out de SVN</p>
 
-<pre><code>svn checkout file:///Users/bruno/Desktop/SVN/shell ./
+<pre><code>$ svn checkout file:///Users/bruno/Desktop/SVN/shell ./
 =&gt; OK
 </code></pre></li>
 <li><p>Récupération du nom de l'auteur</p>
 
-<pre><code>svn log -q file:///Users/bruno/Desktop/SVN | grep -e '^r' | awk 'BEGIN { FS = "|" } ; { print $2 }' | sort | uniq
+<pre><code>$ svn log -q file:///Users/bruno/Desktop/SVN | grep -e '^r' | awk 'BEGIN { FS = "|" } ; { print $2 }' | sort | uniq
+bruno
 </code></pre></li>
 <li><p>Création d'un fichier authors.txt qui contient :</p>
 
@@ -143,26 +201,76 @@ sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
 <p>et qui est sauvegardé dans mon dossier SVN.</p></li>
 <li><p>Importation d'un projet SVN dans un projet Git</p>
 
-<pre><code>mkdir /Users/bruno/Desktop/SVN/bgpattern
-git svn clone file:///Users/bruno/Desktop/SVN/web/XHTML-CSS/bgpattern /Users/bruno/Desktop/git/SVN/bgpattern --no-metadata -A /Users/bruno/Desktop/SVN/authors.txt -t Tags -b Branches -T Trunk
+<pre><code>$ mkdir /Users/bruno/Desktop/git/SVN
+$ cd /Users/bruno/Desktop/git/SVN
+$ git svn clone file:///Users/bruno/Desktop/SVN/web/XHTML-CSS/bgpattern --no-metadata -A /Users/bruno/Desktop/SVN/authors.txt -t Tags -b Branches -T Trunk
 </code></pre>
 
 <p><em>NOTE: le projet doit avoir l'arborescence Tags/Branches/Trunk; d'où l'intérêt du check out du point 4 qui nous permet de vérifier l'arborescence.</em></p></li>
+<li><p>Vérifier l'arborescence du projet git :</p>
+
+<pre><code>$ git branch -a
+* master
+  remotes/tags/bg_pattern_v_0.2
+  remotes/tags/bgpattern_v_0.1
+  remotes/trunk
+</code></pre></li>
 <li><p>Déplacer les étiquettes et en faire de vraies étiquettes git</p>
 
-<pre><code>git for-each-ref refs/remotes/origin/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "$tagname"; git branch -r -d "$tagname";done
-</code></pre></li>
-<li><p>Déplacer les branches ???</p>
-
-<pre><code>git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname";done
+<pre><code>$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "$tagname"; git branch -r -d "$tagname";done
 </code></pre>
 
-<p><em>NOTE: quand on fait un git tag --list, on s'aperçoit qu'on n'a pas récupéré les tag dans git. J'ai pas trop compris pourquoi. Pas au niveau encore ...</em></p></li>
-<li><p>Créer un dépôt sur GitHub</p></li>
+<p>Mais moi je n'ai pas fait ça car je voulais changer les noms des étiquettes. Donc, j'ai lancé une commande pour chaque étiquette :</p>
+
+<pre><code>$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @
+bg_pattern_v_0.2
+bgpattern_v_0.1
+$ git tag v0.1 "tags/bgpattern_v_0.1"
+$ git branch -r -d "tags/bgpattern_v_0.1"
+Deleted remote branch tags/bgpattern_v_0.1 (was 2b624b0).
+$ git tag --list
+v0.1
+$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @
+bg_pattern_v_0.2
+$ git tag v0.2 "tags/bg_pattern_v_0.2"
+$ git branch -r -d "tags/bg_pattern_v_0.2"
+Deleted remote branch tags/bg_pattern_v_0.2 (was 77e6014).
+$ git tag --list
+v0.1
+v0.2
+</code></pre></li>
+<li><p>Déplacer le reste des références sous refs/remotes en branches locales</p>
+
+<pre><code>$ → git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @
+trunk
+$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname";done
+Deleted remote branch trunk (was 32f78dc).
+$ git branch -a
+* master
+</code></pre></li>
+<li><p>Créer un dépôt vide sur GitHub et récupérer son adresse</p></li>
 <li><p>Le connecter au dépôt git local et tout rapatrier sur GitHub</p>
 
-<pre><code>git remote add origin https://github.com/boissonnfive/JS_bgpattern.git
-git push -u origin master
+<pre><code>$ git remote add origin https://github.com/boissonnfive/JS_bgpattern.git
+$ git push origin --tags
+Counting objects: 62, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (58/58), done.
+Writing objects: 100% (62/62), 358.90 KiB | 0 bytes/s, done.
+Total 62 (delta 11), reused 0 (delta 0)
+remote: Resolving deltas: 100% (11/11), done.
+To https://github.com/boissonnfive/JS_bgpattern.git
+ * [new tag]         v0.1 -&gt; v0.1
+ * [new tag]         v0.2 -&gt; v0.2
+$ git push origin master
+Counting objects: 20, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (12/12), 2.58 KiB | 0 bytes/s, done.
+Total 12 (delta 4), reused 0 (delta 0)
+remote: Resolving deltas: 100% (4/4), completed with 1 local objects.
+To https://github.com/boissonnfive/JS_bgpattern.git
+ * [new branch]      master -&gt; master
 </code></pre></li>
 </ol>
 <!-- content end -->
