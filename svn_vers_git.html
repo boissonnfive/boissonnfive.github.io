@@ -46,53 +46,52 @@ Mais il y a deux jours, je me suis dit que c'était le bon moment pour intégrer
 3. Je ne sais pas si ces étapes pour lancer le serveur SVN sont nécessaires :
 
         sudo emacs /Users/bruno/Desktop/SVN/conf/svnserve.conf
-    (pour décommenter 
         sudo emacs /Users/bruno/Desktop/SVN/conf/passwd
-    sudo chown -R www /Users/bruno/Desktop/SVN ???
-    sudo chmod -R u=rwx /Users/bruno/Desktop/SVN
-    sudo chmod a x /Users/bruno ???
-    sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
-    sudo chown -R bruno /Users/bruno/Desktop/SVN
-    sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
+        sudo chown -R www /Users/bruno/Desktop/SVN ???
+        sudo chmod -R u=rwx /Users/bruno/Desktop/SVN
+        sudo chmod a x /Users/bruno ???
+        sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
+        sudo chown -R bruno /Users/bruno/Desktop/SVN
+        sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
     
 4. Test de check out de SVN
 
-    svn checkout file:///Users/bruno/Desktop/SVN/shell ./
-    => OK
+        svn checkout file:///Users/bruno/Desktop/SVN/shell ./
+        => OK
 
 5. Récupération du nom de l'auteur
 
-    svn log -q file:///Users/bruno/Desktop/SVN | grep -e '^r' | awk 'BEGIN { FS = "|" } ; { print $2 }' | sort | uniq
+        svn log -q file:///Users/bruno/Desktop/SVN | grep -e '^r' | awk 'BEGIN { FS = "|" } ; { print $2 }' | sort | uniq
 
 6. Création d'un fichier authors.txt qui contient :
 
-    bruno = boissonnfive <boissonnfive@gmail.com>
+        bruno = boissonnfive <boissonnfive@gmail.com>
 
-et qui est sauvegardé dans mon dossier SVN.
+    et qui est sauvegardé dans mon dossier SVN.
 
 7. Importation d'un projet SVN dans un projet Git
 
-    mkdir /Users/bruno/Desktop/SVN/bgpattern
-    git svn clone file:///Users/bruno/Desktop/SVN/web/XHTML-CSS/bgpattern /Users/bruno/Desktop/git/SVN/bgpattern --no-metadata -A /Users/bruno/Desktop/SVN/authors.txt -t Tags -b Branches -T Trunk
+        mkdir /Users/bruno/Desktop/SVN/bgpattern
+        git svn clone file:///Users/bruno/Desktop/SVN/web/XHTML-CSS/bgpattern /Users/bruno/Desktop/git/SVN/bgpattern --no-metadata -A /Users/bruno/Desktop/SVN/authors.txt -t Tags -b Branches -T Trunk
 
-*NOTE: le projet doit avoir l'arborescence Tags/Branches/Trunk; d'où l'intérêt du check out du point 4 qui nous permet de vérifier l'arborescence.*
+    *NOTE: le projet doit avoir l'arborescence Tags/Branches/Trunk; d'où l'intérêt du check out du point 4 qui nous permet de vérifier l'arborescence.*
 
 8. Déplacer les étiquettes et en faire de vraies étiquettes git
 
-    git for-each-ref refs/remotes/origin/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "$tagname"; git branch -r -d "$tagname";done
+        git for-each-ref refs/remotes/origin/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "$tagname"; git branch -r -d "$tagname";done
 
 9. Déplacer les branches ???
 
-    git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname";done
+        git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname";done
 
-*NOTE: quand on fait un git tag --list, on s'aperçoit qu'on n'a pas récupérer les tag dans git. J'ai pas trop compris pourquoi. Pas au niveau encore ...*
+    *NOTE: quand on fait un git tag --list, on s'aperçoit qu'on n'a pas récupéré les tag dans git. J'ai pas trop compris pourquoi. Pas au niveau encore ...*
 
 10. Créer un dépôt sur GitHub
 
 11. Le connecter au dépôt git local et tout rapatrier sur GitHub
 
-    git remote add origin https://github.com/boissonnfive/JS_bgpattern.git
-    git push -u origin master
+        git remote add origin https://github.com/boissonnfive/JS_bgpattern.git
+        git push -u origin master
 <!-- markdown end -->
 </div>
 <div class="entry" id="main">
@@ -119,56 +118,52 @@ et qui est sauvegardé dans mon dossier SVN.
 <li><p>Je ne sais pas si ces étapes pour lancer le serveur SVN sont nécessaires :</p>
 
 <pre><code>sudo emacs /Users/bruno/Desktop/SVN/conf/svnserve.conf
-</code></pre>
-
-<p>(pour décommenter 
-    sudo emacs /Users/bruno/Desktop/SVN/conf/passwd
+sudo emacs /Users/bruno/Desktop/SVN/conf/passwd
 sudo chown -R www /Users/bruno/Desktop/SVN ???
 sudo chmod -R u=rwx /Users/bruno/Desktop/SVN
 sudo chmod a x /Users/bruno ???
 sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
 sudo chown -R bruno /Users/bruno/Desktop/SVN
-sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN</p></li>
+sudo -u bruno svnserve -d -r /Users/bruno/Desktop/SVN
+</code></pre></li>
 <li><p>Test de check out de SVN</p>
 
-<p>svn checkout file:///Users/bruno/Desktop/SVN/shell ./
-=&gt; OK</p></li>
+<pre><code>svn checkout file:///Users/bruno/Desktop/SVN/shell ./
+=&gt; OK
+</code></pre></li>
 <li><p>Récupération du nom de l'auteur</p>
 
-<p>svn log -q file:///Users/bruno/Desktop/SVN | grep -e '^r' | awk 'BEGIN { FS = "|" } ; { print $2 }' | sort | uniq</p></li>
+<pre><code>svn log -q file:///Users/bruno/Desktop/SVN | grep -e '^r' | awk 'BEGIN { FS = "|" } ; { print $2 }' | sort | uniq
+</code></pre></li>
 <li><p>Création d'un fichier authors.txt qui contient :</p>
 
-<p>bruno = boissonnfive <a href="mailto:boissonnfive@gmail.com">boissonnfive@gmail.com</a></p></li>
-</ol>
+<pre><code>bruno = boissonnfive &lt;boissonnfive@gmail.com&gt;
+</code></pre>
 
-<p>et qui est sauvegardé dans mon dossier SVN.</p>
-
-<ol>
+<p>et qui est sauvegardé dans mon dossier SVN.</p></li>
 <li><p>Importation d'un projet SVN dans un projet Git</p>
 
-<p>mkdir /Users/bruno/Desktop/SVN/bgpattern
-git svn clone file:///Users/bruno/Desktop/SVN/web/XHTML-CSS/bgpattern /Users/bruno/Desktop/git/SVN/bgpattern --no-metadata -A /Users/bruno/Desktop/SVN/authors.txt -t Tags -b Branches -T Trunk</p></li>
-</ol>
+<pre><code>mkdir /Users/bruno/Desktop/SVN/bgpattern
+git svn clone file:///Users/bruno/Desktop/SVN/web/XHTML-CSS/bgpattern /Users/bruno/Desktop/git/SVN/bgpattern --no-metadata -A /Users/bruno/Desktop/SVN/authors.txt -t Tags -b Branches -T Trunk
+</code></pre>
 
-<p><em>NOTE: le projet doit avoir l'arborescence Tags/Branches/Trunk; d'où l'intérêt du check out du point 4 qui nous permet de vérifier l'arborescence.</em></p>
-
-<ol>
+<p><em>NOTE: le projet doit avoir l'arborescence Tags/Branches/Trunk; d'où l'intérêt du check out du point 4 qui nous permet de vérifier l'arborescence.</em></p></li>
 <li><p>Déplacer les étiquettes et en faire de vraies étiquettes git</p>
 
-<p>git for-each-ref refs/remotes/origin/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "<span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-672-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mo&gt;&amp;quot;&amp;quot;&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-10651" role="math" style="width: 5.766em; display: inline-block;"><span style="display: inline-block; position: relative; width: 4.675em; height: 0px; font-size: 123%;"><span style="position: absolute; clip: rect(1.712em 1004.598em 2.899em -1000em); top: -2.541em; left: 0em;"><span class="mrow" id="MathJax-Span-10652"><span class="mi" id="MathJax-Span-10653" style="font-family: STIXGeneral-Italic;">t<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.018em;"></span></span><span class="mi" id="MathJax-Span-10654" style="font-family: STIXGeneral-Italic;">a</span><span class="mi" id="MathJax-Span-10655" style="font-family: STIXGeneral-Italic;">g</span><span class="mi" id="MathJax-Span-10656" style="font-family: STIXGeneral-Italic;">n</span><span class="mi" id="MathJax-Span-10657" style="font-family: STIXGeneral-Italic;">a</span><span class="mi" id="MathJax-Span-10658" style="font-family: STIXGeneral-Italic;">m</span><span class="mi" id="MathJax-Span-10659" style="font-family: STIXGeneral-Italic;">e</span><span class="mo" id="MathJax-Span-10660" style="font-family: STIXGeneral-Regular; padding-left: 0.313em;">"<span style="font-family: STIXGeneral-Regular; font-style: normal; font-weight: normal;">"</span></span></span><span style="display: inline-block; width: 0px; height: 2.541em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.316em; border-left-width: 0px; border-left-style: solid; width: 0px; height: 1.21em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>t</mi><mi>a</mi><mi>g</mi><mi>n</mi><mi>a</mi><mi>m</mi><mi>e</mi><mo>""</mo></math></span></span><script type="math/tex" id="MathJax-Element-672">tagname" "</script>tagname"; git branch -r -d "$tagname";done</p></li>
+<pre><code>git for-each-ref refs/remotes/origin/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "$tagname"; git branch -r -d "$tagname";done
+</code></pre></li>
 <li><p>Déplacer les branches ???</p>
 
-<p>git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "<span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-673-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mo&gt;&amp;quot;&amp;quot;&lt;/mo&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;/&lt;/mo&gt;&lt;/mrow&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;/&lt;/mo&gt;&lt;/mrow&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-10661" role="math" style="width: 14.703em; display: inline-block;"><span style="display: inline-block; position: relative; width: 11.941em; height: 0px; font-size: 123%;"><span style="position: absolute; clip: rect(1.705em 1011.95em 2.9em -1000em); top: -2.541em; left: 0em;"><span class="mrow" id="MathJax-Span-10662"><span class="mi" id="MathJax-Span-10663" style="font-family: STIXGeneral-Italic;">b</span><span class="mi" id="MathJax-Span-10664" style="font-family: STIXGeneral-Italic;">r<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.023em;"></span></span><span class="mi" id="MathJax-Span-10665" style="font-family: STIXGeneral-Italic;">a</span><span class="mi" id="MathJax-Span-10666" style="font-family: STIXGeneral-Italic;">n</span><span class="mi" id="MathJax-Span-10667" style="font-family: STIXGeneral-Italic;">c</span><span class="mi" id="MathJax-Span-10668" style="font-family: STIXGeneral-Italic;">h</span><span class="mi" id="MathJax-Span-10669" style="font-family: STIXGeneral-Italic;">n</span><span class="mi" id="MathJax-Span-10670" style="font-family: STIXGeneral-Italic;">a</span><span class="mi" id="MathJax-Span-10671" style="font-family: STIXGeneral-Italic;">m</span><span class="mi" id="MathJax-Span-10672" style="font-family: STIXGeneral-Italic;">e</span><span class="mo" id="MathJax-Span-10673" style="font-family: STIXGeneral-Regular; padding-left: 0.313em;">"<span style="font-family: STIXGeneral-Regular; font-style: normal; font-weight: normal;">"</span></span><span class="mi" id="MathJax-Span-10674" style="font-family: STIXGeneral-Italic; padding-left: 0.313em;">r<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.023em;"></span></span><span class="mi" id="MathJax-Span-10675" style="font-family: STIXGeneral-Italic;">e</span><span class="mi" id="MathJax-Span-10676" style="font-family: STIXGeneral-Italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.146em;"></span></span><span class="mi" id="MathJax-Span-10677" style="font-family: STIXGeneral-Italic;">s</span><span class="texatom" id="MathJax-Span-10678"><span class="mrow" id="MathJax-Span-10679"><span class="mo" id="MathJax-Span-10680" style="font-family: STIXGeneral-Regular;">/</span></span></span><span class="mi" id="MathJax-Span-10681" style="font-family: STIXGeneral-Italic;">r<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.023em;"></span></span><span class="mi" id="MathJax-Span-10682" style="font-family: STIXGeneral-Italic;">e</span><span class="mi" id="MathJax-Span-10683" style="font-family: STIXGeneral-Italic;">m</span><span class="mi" id="MathJax-Span-10684" style="font-family: STIXGeneral-Italic;">o</span><span class="mi" id="MathJax-Span-10685" style="font-family: STIXGeneral-Italic;">t<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.018em;"></span></span><span class="mi" id="MathJax-Span-10686" style="font-family: STIXGeneral-Italic;">e</span><span class="mi" id="MathJax-Span-10687" style="font-family: STIXGeneral-Italic;">s</span><span class="texatom" id="MathJax-Span-10688"><span class="mrow" id="MathJax-Span-10689"><span class="mo" id="MathJax-Span-10690" style="font-family: STIXGeneral-Regular;">/</span></span></span></span><span style="display: inline-block; width: 0px; height: 2.541em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.317em; border-left-width: 0px; border-left-style: solid; width: 0px; height: 1.22em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>b</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>h</mi><mi>n</mi><mi>a</mi><mi>m</mi><mi>e</mi><mo>""</mo><mi>r</mi><mi>e</mi><mi>f</mi><mi>s</mi><mrow class="MJX-TeXAtom-ORD"><mo>/</mo></mrow><mi>r</mi><mi>e</mi><mi>m</mi><mi>o</mi><mi>t</mi><mi>e</mi><mi>s</mi><mrow class="MJX-TeXAtom-ORD"><mo>/</mo></mrow></math></span></span><script type="math/tex" id="MathJax-Element-673">branchname" "refs/remotes/</script>branchname"; git branch -r -d "$branchname";done</p></li>
-</ol>
+<pre><code>git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname";done
+</code></pre>
 
-<p><em>NOTE: quand on fait un git tag --list, on s'aperçoit qu'on n'a pas récupérer les tag dans git. J'ai pas trop compris pourquoi. Pas au niveau encore ...</em></p>
-
-<ol>
+<p><em>NOTE: quand on fait un git tag --list, on s'aperçoit qu'on n'a pas récupéré les tag dans git. J'ai pas trop compris pourquoi. Pas au niveau encore ...</em></p></li>
 <li><p>Créer un dépôt sur GitHub</p></li>
 <li><p>Le connecter au dépôt git local et tout rapatrier sur GitHub</p>
 
-<p>git remote add origin https://github.com/boissonnfive/JS_bgpattern.git
-git push -u origin master</p></li>
+<pre><code>git remote add origin https://github.com/boissonnfive/JS_bgpattern.git
+git push -u origin master
+</code></pre></li>
 </ol>
 <!-- content end -->
 </div>
