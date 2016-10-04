@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Simple</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+<div class="main">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">home</a></li>
+            <li><a href="/#/tags">tags</a></li>
+            <li><a href="/#/archive">archive</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+# La nouvelle console de Windows 10
+
+La console ou invite de commande (cmd.exe) a été améliorée dans Windows 10 (voir [ici](https://technet.microsoft.com/en-us/library/mt427362.aspx?f=255&MSPPError=-2147217396)).
+
+Parmi ces nouvelles fonctions, il y en a 2 qui me semblent bien utiles : la sélection du texte et le copier/coller.
+
+## La sélection du texte
+
+Il s'agit de sélectionner le texte dans la console comme on le fait dans un éditeur de texte (SHIFT+FLECHE GAUCHE, SHIFT + FIN, etc...). D'après microsoft (voir lien précédent), cette fonctionnalité est activée par défaut. Ce n'était pas le cas chez moi.
+
+Pour l'activer:
+
+1. ouvrez Regedit
+2. Allez à la clé **HKEY\_CURRENT\_USER\Console**
+3. Modifiez la sous-clé **ExtendedEdit Keys** pour lui donner la valeur 1.
+4. Redémarrer la console.
+
+
+## Le copier/coller
+
+- Copier + break : CTRL + C
+- Coller               : CTRL + V
+- Copier              : SHIFT + INS
+- Coller               : CTRL + INS
+
+
+## La transparence
+
+Si on est un vrai geek, il peut être intéressant de donner à sa fenêtre de console un petit peu de transparence. 
+
+On peut le faire à partir du menu **Propriétés**, dans l'onglet **Couleurs**, section **Opacité**.
+
+On peut aussi utiliser les raccourcis clavier :
+
+- augmenter la transparence : CTRL+SHIFT+Plus (+)
+- diminuer la transparence     : CTRL+SHIFT+Moins (-)
+
+<!-- markdown end -->
+</div>
+<div class="entry" id="main">
+<!-- content -->
+<h1 id="lanouvelleconsoledewindows10">La nouvelle console de Windows 10</h1>
+
+<p>La console ou invite de commande (cmd.exe) a été améliorée dans Windows 10 (voir <a href="https://technet.microsoft.com/en-us/library/mt427362.aspx?f=255&amp;MSPPError=-2147217396">ici</a>).</p>
+
+<p>Parmi ces nouvelles fonctions, il y en a 2 qui me semblent bien utiles : la sélection du texte et le copier/coller.</p>
+
+<h2 id="laslectiondutexte">La sélection du texte</h2>
+
+<p>Il s'agit de sélectionner le texte dans la console comme on le fait dans un éditeur de texte (SHIFT+FLECHE GAUCHE, SHIFT + FIN, etc...). D'après microsoft (voir lien précédent), cette fonctionnalité est activée par défaut. Ce n'était pas le cas chez moi.</p>
+
+<p>Pour l'activer:</p>
+
+<ol>
+<li>ouvrez Regedit</li>
+<li>Allez à la clé <strong>HKEY_CURRENT_USER\Console</strong></li>
+<li>Modifiez la sous-clé <strong>ExtendedEdit Keys</strong> pour lui donner la valeur 1.</li>
+<li>Redémarrer la console.</li>
+</ol>
+
+<h2 id="lecopiercoller">Le copier/coller</h2>
+
+<ul>
+<li>Copier + break : CTRL + C</li>
+<li>Coller               : CTRL + V</li>
+<li>Copier              : SHIFT + INS</li>
+<li>Coller               : CTRL + INS</li>
+</ul>
+
+<h2 id="latransparence">La transparence</h2>
+
+<p>Si on est un vrai geek, il peut être intéressant de donner à sa fenêtre de console un petit peu de transparence. </p>
+
+<p>On peut le faire à partir du menu <strong>Propriétés</strong>, dans l'onglet <strong>Couleurs</strong>, section <strong>Opacité</strong>.</p>
+
+<p>On peut aussi utiliser les raccourcis clavier :</p>
+
+<ul>
+<li>augmenter la transparence : CTRL+SHIFT+Plus (+)</li>
+<li>diminuer la transparence     : CTRL+SHIFT+Moins (-)</li>
+</ul>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer">
+		<p>© Copyright 2014 by isnowfy, Designed by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "console_W10.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+</body>
+</html>
