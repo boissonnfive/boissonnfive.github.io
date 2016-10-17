@@ -111,35 +111,34 @@ pre.line-numbers>code{position:relative}
 .line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:0;font-size:100%;left:-3.8em;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}
 .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}
-body{margin:0;font-family:Courier,"Courier New",sans-serif;/*font-family:Georgia,serif*/}
+body{margin:0;font-family: 'Raleway',Courier,"Courier New",sans-serif;/*font-family:Georgia,serif*/}
 .main{min-height:100%;position:relative;margin:0 auto;width:600px;position:relative}
 #disqus_thread{padding:16px}
-.wrap-header h1{width:100%;/*height:40px;*/
+.wrap-header h1{width:100%;text-align:center;/*height:40px;*/
 /*color:#E93071;*/
 padding:20px 0 10px;/*border-bottom:2px dashed #888;*/
 ,border-bottom:2px dashed #444;margin:0 0 10px;/*font-family:"Comic Sans MS",cursive,sans-serif*/
 /*font-family:"Comic Sans MS",cursive,sans-serif*/}
 #title:hover{border:0}
-.header{margin:70px 0 0 -210px;width:140px;float:left;text-align:right;font-family :Courier,"Courier New",sans-serif;/*font-family:Verdana,Geneva,sans-serif*/}
-.header li{list-style:none;text-transform:uppercase;margin:30px 0
-/*margin:15px 0;*/}
+.header{margin:70px 0 0 -210px;width:140px;float:left;text-align:right;font-family :'Raleway', Courier,"Courier New",sans-serif;font-weight:bold;/*font-family:Verdana,Geneva,sans-serif*/}
+.header li{list-style:none;text-transform:uppercase;margin:30px 0;/*margin:15px 0;*/}
 .header a{color:#000;margin:15px 0;padding :15px;}
 .header #pages li a:hover{background-color :#eee;color :#34B489;border-bottom:none;}
 h1 a{color:#146558;/*#444;*/
-font-family:'Ceviche One',cursive;font-size:1.5em;}
+font-family: 'Oleo Script Swash Caps', 'Ceviche One',cursive;font-size:1.5em;}
 a{text-decoration:none;color:#34B489;/*color:#E93071*/}
 a:hover{border-bottom:1px solid #34B489;/*border-bottom:1px solid #E93071*/}
 .selected{color:#000}
 .item{margin:10px 0;padding:1px 0}
 .little{float:left;margin-right:10px;width:3px;height:30px;border-radius:4px;/*background:#C5C5BD*/
 background:#666;}
-.date{font-family:Courier,"Courier New",sans-serif;color:#666;float:left;/*color:#C5C5BD;*/
+.date{font-family:'Raleway', Courier,"Courier New",sans-serif;color:#666;float:left;/*color:#C5C5BD;*/
 font-size:17px;text-transform:uppercase;/*font-weight:700;*/
 width:140px;padding:16px 0 0}
 .title{padding:0;margin:0 0 0 140px}
 .title a:hover{padding-bottom:2px;border-bottom:1px solid #34B489;}
-.title h2{font-size:17px;line-height:25px}
-.footer{font-family:Courier,"Courier New",sans-serif;font-size:small;width:100%;height:100px;position:absolute;bottom:0;left:0;border-top:1px dotted #888;margin-top:20px;text-align:center;color:#555}
+.title h2{font-size:17px;line-height:25px; font-family: 'Raleway', 'Oleo Script Swash Caps', 'Open Sans', 'Courier New', sans-serif;font-weight: 100; text-transform: uppercase;}
+.footer{font-family:'Raleway', Courier,"Courier New",sans-serif;font-size:small;width:100%;height:100px;/*position:absolute;bottom:0;left:0;*/border-top:1px dotted #888;margin-top:20px;text-align:center;color:#555}
 .pages{text-align:center;margin:25px 25px 35px;font-family:Courier,"Courier New",sans-serif;/*font-family:"Lucida Sans Unicode","Lucida Grande",sans-serif*/}
 .pages a:hover{border:1px solid #E93071;border-radius:4px}
 .pages>li{margin:0 4px;display:inline}
