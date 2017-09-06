@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Simple</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+	<link href='https://fonts.googleapis.com/css?family=Ceviche+One' rel='stylesheet' type='text/css'>
+	    <link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Open+Sans" rel="stylesheet">
+	    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+<body>
+<div class="main">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">home</a></li>
+            <li><a href="/#/tags">tags</a></li>
+            <li><a href="/#/archive">archive</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+La synchronisation d'iCloud sur mon Lumia 950 XL (windows phone 10) ne fonctionnait plus. Je n'avais plus accès à mes contacts iCloud et j'avais un message :
+« Compte iCloud : attention requise »
+
+Evidemment, avec Windows, il ne faut pas demander un message d'erreur précis. Alors que l'erreur est toute bête, la connexion est désormais impossible.
+
+Après enquête, il s'avère qu'Apple, pour encourager l'utilisation de la connexion à deux facteurs, a plus ou moins saboté les connexions des applications qui avaient accès à iCloud.
+
+**NOTE: Si vous activez l'identification à deux facteurs, votre vie numérique sera plus sécurisée, mais un peu plus compliquée (il faudra attendre de recevoir un code par SMS et entrer ce code à chaque connexion). À vous de voir ...**
+
+Dans mon cas, il a fallu procédé ainsi:
+
+1. Allez sur [le site Apple ID](https://appleid.apple.com/)
+2. Connectez-vous
+3. Dans la section **Sécurité** , IDENTIFICATION À DEUX FACTEURS ne doit pas être **Activée**
+4. Cliquez sur le bouton **Modifier**
+5. Activez l'identification à deux facteurs
+**ATTENTION !** Il faut maintenant que vous activiez cette identification sur tous vos appareils Apple (macbook, iPhone, etc...)
+6. Déconnectez-vous du site Apple ID
+7. Allez sur un de vos matériel Apple, dans réglages, compte iCloud et activez l'identification à deux facteurs.
+7. Revenez sur [le site Apple ID](https://appleid.apple.com/)
+8. Connectez-vous
+9. Dans la section **Sécurité** , MOTS DE PASSE POUR APPLICATION cliquez sur **Générer un mot de passe**.
+10. Donnez un nom à l'application qui va avoir besoin de se connecter à iCloud (moi j'ai mis WinPhone10) et copier le mot de passe généré par Apple.
+11. Enfin, allez dans les paramètres de Windows Phone
+12. Allez dans Comptes, puis dans Comptes de messagerie et d'application
+13. Entrez le nouveau mot de passe généré pour votre compte iCloud (ne plus utiliser l'ancien mot de passe).
+
+Voilà une bonne chose de faite !
+<!-- markdown end -->
+</div>
+<div class="entry" id="main">
+<!-- content -->
+<p>La synchronisation d'iCloud sur mon Lumia 950 XL (windows phone 10) ne fonctionnait plus. Je n'avais plus accès à mes contacts iCloud et j'avais un message :
+« Compte iCloud : attention requise »</p>
+
+<p>Evidemment, avec Windows, il ne faut pas demander un message d'erreur précis. Alors que l'erreur est toute bête, la connexion est désormais impossible.</p>
+
+<p>Après enquête, il s'avère qu'Apple, pour encourager l'utilisation de la connexion à deux facteurs, a plus ou moins saboté les connexions des applications qui avaient accès à iCloud.</p>
+
+<p><strong>NOTE: Si vous activez l'identification à deux facteurs, votre vie numérique sera plus sécurisée, mais un peu plus compliquée (il faudra attendre de recevoir un code par SMS et entrer ce code à chaque connexion). À vous de voir ...</strong></p>
+
+<p>Dans mon cas, il a fallu procédé ainsi:</p>
+
+<ol>
+<li>Allez sur <a href="https://appleid.apple.com/">le site Apple ID</a></li>
+<li>Connectez-vous</li>
+<li>Dans la section <strong>Sécurité</strong> , IDENTIFICATION À DEUX FACTEURS ne doit pas être <strong>Activée</strong></li>
+<li>Cliquez sur le bouton <strong>Modifier</strong></li>
+<li>Activez l'identification à deux facteurs
+<strong>ATTENTION !</strong> Il faut maintenant que vous activiez cette identification sur tous vos appareils Apple (macbook, iPhone, etc...)</li>
+<li>Déconnectez-vous du site Apple ID</li>
+<li>Allez sur un de vos matériel Apple, dans réglages, compte iCloud et activez l'identification à deux facteurs.</li>
+<li>Revenez sur <a href="https://appleid.apple.com/">le site Apple ID</a></li>
+<li>Connectez-vous</li>
+<li>Dans la section <strong>Sécurité</strong> , MOTS DE PASSE POUR APPLICATION cliquez sur <strong>Générer un mot de passe</strong>.</li>
+<li>Donnez un nom à l'application qui va avoir besoin de se connecter à iCloud (moi j'ai mis WinPhone10) et copier le mot de passe généré par Apple.</li>
+<li>Enfin, allez dans les paramètres de Windows Phone</li>
+<li>Allez dans Comptes, puis dans Comptes de messagerie et d'application</li>
+<li>Entrez le nouveau mot de passe généré pour votre compte iCloud (ne plus utiliser l'ancien mot de passe).</li>
+</ol>
+
+<p>Voilà une bonne chose de faite !</p>
+<!-- content end -->
+<p style="text-align:center;color:#146558;font-size:3.5em;margin-top:1em;margin-bottom:1em;">❦</p>
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer">
+		<p>© Copyright 2016 by isnowfy, Designed by isnowfy &amp; boissonnfive</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "iCloud_winphone10.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+</body>
+</html>
